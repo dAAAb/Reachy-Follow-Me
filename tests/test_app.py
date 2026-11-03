@@ -31,6 +31,11 @@ class AppTest(unittest.TestCase):
   self.client.post('/api/stop',json={},headers=self.headers)
   self.assertFalse(self.app.armed)
   self.assertEqual(self.client.post('/api/target',json=target,headers=self.headers).status_code,409)
+ def test_repeated_stop_does_not_resample_hold_target(self):
+  self.app.has_control=True;self.app.armed=True
+  self.app.disarm("stop");self.assertTrue(self.app.hold_requested)
+  self.app.hold_requested=False # runtime captured the measured pose once
+  self.app.disarm("inactive packet");self.assertFalse(self.app.hold_requested)
  def test_same_anatomical_mapping_in_sdk_and_mujoco(self):
   a={'yaw':0,'left':70,'right':0};sdk=sdk_antennas(a);sim=mujoco_antennas(a)
   self.assertAlmostEqual(sdk[0],math.radians(-70));self.assertEqual(sdk[1],0)

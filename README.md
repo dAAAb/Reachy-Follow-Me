@@ -93,7 +93,7 @@ python scripts/audit_public.py
 
 `prepare_app.py` 只同步已審查的前端文字檔到套件；不含模型、攝影機資料或本機設定。模型下載到使用者快取，不寫 repo。`server.py` 是獨立 MuJoCo 教室版；`reachy_follow_me/main.py` 是 Control 的正式 App。
 
-目前驗證：官方 MuJoCo 畫面、單軸左右、16 個 JS 測試、5 個 Python App 測試；官方 app-assistant 完整安裝／移除檢查通過，已由官方模擬 daemon App manager 啟動。USB／Wireless 實體環境、不同人的攝影機姿勢需實機驗收；人工座標與 mock SDK 不能代表所有硬體已驗證。
+目前驗證：官方 MuJoCo 畫面、單軸左右、16 個 JS 測試、6 個 Python App 測試；官方 app-assistant 完整安裝／移除檢查通過，已由官方模擬 daemon App manager 啟動。USB／Wireless 實體環境、不同人的攝影機姿勢需實機驗收；人工座標與 mock SDK 不能代表所有硬體已驗證。
 
 
 ### 追蹤離開畫面

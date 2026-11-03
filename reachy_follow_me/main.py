@@ -126,10 +126,13 @@ class ReachyFollowMe(ReachyMiniApp):
 
     def disarm(self, message):
         with self.lock:
+            # Repeated inactive browser packets must not re-sample a sagging
+            # measured pose: capture the hold target only on the transition.
+            if self.armed or self.enable_requested:
+                self.hold_requested = self.has_control
             self.armed = False
             self.enable_requested = False
             self.desired = None
-            self.hold_requested = self.has_control
             self.epoch += 1
             self.message = message
 
