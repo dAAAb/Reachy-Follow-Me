@@ -10,6 +10,7 @@ from PIL import Image
 import reachy_mini
 from reachy_mini.kinematics.analytical_kinematics import AnalyticalKinematics
 from reachy_mini.utils import create_head_pose
+from reachy_follow_me.adapter import mujoco_antennas
 class Simulator:
  def __init__(self):
   self.lock=threading.Lock();self.latest={'yaw':0.,'left':0.,'right':0.};self.last=time.monotonic();self.active=False;self.image=b'';self.running=False;self.error=None
@@ -51,8 +52,7 @@ class Simulator:
     if np.isfinite(q).all():
      for n,v in zip(names,q):target[ids[n]]=v
     # Teaching 0 = lowered outward, 70 = raised upright. Opposite hinges need opposite signs.
-    target[ids['left_antenna']]=-math.radians(70-applied['left'])
-    target[ids['right_antenna']]=math.radians(70-applied['right'])
+    for n,v in mujoco_antennas(applied).items():target[ids[n]]=v
     data.ctrl[:]=target
     for _ in range(20):mujoco.mj_step(model,data)
     renderer.update_scene(data,camera=camera);pixels=renderer.render();buf=io.BytesIO();Image.fromarray(pixels).save(buf,format='JPEG',quality=85)
